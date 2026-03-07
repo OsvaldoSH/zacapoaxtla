@@ -36,3 +36,23 @@ export const login = async (req, res) => {
         res.status(500).json({ error: "Error del servidor" });
     }
 };
+
+export const register = async (req, res) => {
+    const { nombre, usuario, contrasena, rol} = req.body;
+
+    if (!nombre || !usuario || !contrasena || !rol ) {
+        return res.status(400).json({ error: "Faltan datos"})
+    }
+
+    try {
+        await pool.query(
+            `insert into usuarios(nombre, usuario, contrasena, rol)
+                values (?,?,?,?)`,
+            [nombre, usuario, contrasena, rol]
+        );
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ error: "Error del servidor"});
+    }
+    res.json({ mensaje: "Usuario registrado"});
+};
