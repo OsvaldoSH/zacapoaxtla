@@ -1,5 +1,6 @@
 import pool from "../config/db.js";
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
     const { usuario, contrasena } = req.body;
@@ -14,7 +15,11 @@ export const login = async (req, res) => {
             [usuario]
         );
 
-        if (rows.length === 0 || rows[0].contrasena !== contrasena) {
+        const passwordValida = await bcrypt.compare(
+            contrasena, rows[0].contrasena
+        );
+
+        if (rows.length === 0 || !passwordValida) {
             return res.status(401).json({ error: "Usuario o contrasena incorrecta"});
         }
 
@@ -22,8 +27,19 @@ export const login = async (req, res) => {
             return res.status(401).json({ error: "Usuario no activo"});
         }
 
+        const token = jwt.sign(
+            {
+                id: rows[0].id,
+                usuario: rows[0].usuario,
+                rol: rows[0].rol
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "8h"}
+        );
+
         res.json({
             mensaje: "Login correcto",
+            token,
             usuario: {
                 id: rows[0].id,
                 nombre: rows[0].nombre,
@@ -45,10 +61,11 @@ export const register = async (req, res) => {
     }
 
     try {
+        const passwordHash = await bcrypt.hash(contrasena, 10);
         await pool.query(
             `insert into usuarios(nombre, usuario, contrasena, rol)
                 values (?,?,?,?)`,
-            [nombre, usuario, contrasena, rol]
+            [nombre, usuario, passwordHash, rol]
         );
     } catch(error) {
         console.error(error);
