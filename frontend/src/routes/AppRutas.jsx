@@ -7,15 +7,9 @@ import Rutaprotegida from "../security/RutaProtejida";
 function AppRutas() {
     return (
         <Routes>
+            <Route path="/perfil" element={<Rutaprotegida><Perfil /></Rutaprotegida>}/>
             <Route path="/" element={<Login />}/>
             <Route path="/registro" element={<Registro/>}/>
-            <Route path="/perfil" 
-                element={
-                    <Rutaprotegida>
-                        <Perfil />
-                    </Rutaprotegida>
-                }
-            />
         </Routes>
     );
 }
