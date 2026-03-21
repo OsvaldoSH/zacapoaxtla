@@ -15,12 +15,18 @@ export const login = async (req, res) => {
             [usuario]
         );
 
+        if (rows.length === 0 ) {
+            return res.status(401).json({ error: "Usuario o contraseña incorrecta"});
+        }
+        const user = rows[0];
+
         const passwordValida = await bcrypt.compare(
-            contrasena, rows[0].contrasena
+            contrasena, 
+            user.contrasena
         );
 
-        if (rows.length === 0 || !passwordValida) {
-            return res.status(401).json({ error: "Usuario o contrasena incorrecta"});
+        if (!passwordValida) {
+            return res.status(401).json({ error: "Usuario o contraseña incorrecta"});
         }
 
         if (rows[0].estado !== "activo") {
@@ -29,9 +35,9 @@ export const login = async (req, res) => {
 
         const token = jwt.sign(
             {
-                id: rows[0].id,
-                usuario: rows[0].usuario,
-                rol: rows[0].rol
+                id: user.id,
+                usuario: user.usuario,
+                rol: user.rol
             },
             process.env.JWT_SECRET,
             { expiresIn: "8h"}
@@ -41,10 +47,10 @@ export const login = async (req, res) => {
             mensaje: "Login correcto",
             token,
             usuario: {
-                id: rows[0].id,
-                nombre: rows[0].nombre,
-                usuario: rows[0].usuario,
-                rol: rows[0].rol,
+                id: user.id,
+                nombre: user.nombre,
+                usuario: user.usuario,
+                rol: user.rol,
             }
         });
     } catch (error) {
@@ -53,23 +59,3 @@ export const login = async (req, res) => {
     }
 };
 
-export const register = async (req, res) => {
-    const { nombre, usuario, contrasena, rol} = req.body;
-
-    if (!nombre || !usuario || !contrasena || !rol ) {
-        return res.status(400).json({ error: "Faltan datos"})
-    }
-
-    try {
-        const passwordHash = await bcrypt.hash(contrasena, 10);
-        await pool.query(
-            `insert into usuarios(nombre, usuario, contrasena, rol)
-                values (?,?,?,?)`,
-            [nombre, usuario, passwordHash, rol]
-        );
-    } catch(error) {
-        console.error(error);
-        res.status(500).json({ error: "Error del servidor"});
-    }
-    res.json({ mensaje: "Usuario registrado"});
-};
