@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
-import { obtenerToken, eliminarToken } from "../utils/auth";
+import api from "../../../api/axios";
+import { obtenerToken, eliminarToken } from "../../auth/utils/auth";
 import { useNavigate } from "react-router-dom";
 
 function Perfil() {

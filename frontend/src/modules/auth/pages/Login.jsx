@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios.js";
-import  { guardarToken } from "../utils/auth.js";
+import api from "../../../api/axios.js";
+import  { guardarToken, obtenerUsuario } from "../utils/auth.js";
 
 function Login() {
     const navigate = useNavigate();
@@ -26,8 +26,15 @@ function Login() {
         try {
             const respuesta = await api.post("/auth/login", form);
             guardarToken(respuesta.data.token);
+            const usuario = obtenerUsuario();
             setMensaje("Login correcto");
-            navigate("/perfil");
+            
+            if (usuario?.rol === "Sistemas") {
+                navigate("/admin");
+            } else {
+                navigate("/perfil");
+            }
+
         } catch (error){
             console.error(error);
             setMensaje("Error al iniciar sesion");
