@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../../api/axios";
+import api from "../../../api/api";
 import { obtenerToken, eliminarToken } from "../../auth/utils/auth";
 import { useNavigate } from "react-router-dom";
 
