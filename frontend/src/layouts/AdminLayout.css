@@ -1,0 +1,37 @@
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #16a085; /* verde tipo el de tu imagen */
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.menu {
+    display: flex;
+    gap: 20px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+.user button {
+    background: white;
+    color: #16a085;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}

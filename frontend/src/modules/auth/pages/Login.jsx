@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/api.js";
 import  { guardarToken, obtenerUsuario } from "../utils/auth.js";
+import "./login.css"
 
 function Login() {
     const navigate = useNavigate();
@@ -27,7 +28,6 @@ function Login() {
             const respuesta = await api.post("/auth/login", form);
             guardarToken(respuesta.data.token);
             const usuario = obtenerUsuario();
-            setMensaje("Login correcto");
             
             if (usuario?.rol === "Sistemas") {
                 navigate("/admin");
@@ -42,35 +42,32 @@ function Login() {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="login-container">
+            <div className="login-card">
+                <h2 className="login-title">LOGIN</h2>
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Usuario</label>
+                <form onSubmit={handleSubmit} className="login-form">
+
                     <input
                         type="text"
                         name="usuario"
+                        placeholder="usuario"
                         value={form.usuario}
                         onChange={handleChange}
                     />
-                </div>
 
-                <div>
-                    <label>Contrasena</label>
-                    <input
+                    <input 
                         type="password"
-         
-               name="contrasena"
+                        name="contrasena"
+                        placeholder="Contraseña"
                         value={form.contrasena}
                         onChange={handleChange}
                     />
-                </div>
 
-                <button type="submit">Iniciar sesion</button>
-            </form>
-
-            {mensaje && <p>{mensaje}</p>}
+                    <button type="submit">LOGIN</button>
+                </form>
+                {mensaje && <p className="login-error">{mensaje}</p>}
+            </div>
         </div>
     );
 }

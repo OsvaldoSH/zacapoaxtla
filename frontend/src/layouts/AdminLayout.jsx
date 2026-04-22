@@ -1,5 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import { eliminarToken } from "../modules/auth/utils/auth";
+import "./AdminLayout.css"
 
 function AdminLayout() {
     const cerrarSesion = () => {
@@ -8,20 +9,25 @@ function AdminLayout() {
     };
 
     return (
-        <div>
-            <h1>Panel de administracion</h1>
+        <div className="admin-container">
+            
+            <header className="admin-header">
+                <div className="logo">Admin</div>
 
-            <nav>
-                <Link to="/admin">Dashboard</Link>
-                {" | "}
-                <Link to="/admin/empleados">Empleados</Link>
-                {" | "}
-                <button onClick={cerrarSesion}>Cerrar sesion</button>
-            </nav>
+                <nav className="menu">
+                    <Link to="/admin">Dashboard</Link>
+                    <Link to="/admin/empleados">Empleados</Link>
+                </nav>
 
-            <hr/>
+                <div className="user">
+                    <button onClick={cerrarSesion}>Salir</button>
+                </div>
+            </header>
 
-            <Outlet />
+            <main className="contenido">
+                <Outlet />
+            </main>
+
         </div>
     );
 }
