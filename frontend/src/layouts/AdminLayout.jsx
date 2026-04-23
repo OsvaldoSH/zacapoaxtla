@@ -24,7 +24,7 @@ function AdminLayout() {
                 </div>
             </header>
 
-            <main className="contenido">
+            <main className="admin-contenido">
                 <Outlet />
             </main>
 

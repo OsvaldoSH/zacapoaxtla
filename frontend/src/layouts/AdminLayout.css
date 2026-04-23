@@ -1,37 +1,140 @@
+.admin-container {
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .admin-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #16a085; /* verde tipo el de tu imagen */
-    padding: 10px 20px;
+    background: #16a085;
+    padding: 12px 20px;
     color: white;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin: 0;
+    width: 100%;
 }
 
 .logo {
-    font-weight: bold;
-    font-size: 18px;
+    font-weight: 700;
+    font-size: 20px;
+    white-space: nowrap;
+    margin: 0;
 }
 
 .menu {
     display: flex;
+    align-items: center;
     gap: 20px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
 }
 
 .menu a {
     color: white;
     text-decoration: none;
     font-weight: 500;
+    font-size: 16px;
+    margin: 0;
 }
 
 .menu a:hover {
     text-decoration: underline;
 }
 
+.user {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
 .user button {
     background: white;
     color: #16a085;
     border: none;
-    padding: 5px 10px;
+    padding: 8px 14px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.admin-contenido {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: block;
+}
+
+.admin-contenido > * {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .admin-header {
+        padding: 10px 14px;
+        gap: 12px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .menu {
+        gap: 14px;
+    }
+
+    .menu a {
+        font-size: 15px;
+    }
+
+    .user button {
+        padding: 7px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-header {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .menu {
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        min-width: 0;
+    }
+
+    .menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    .menu a {
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .user button {
+        padding: 6px 10px;
+        font-size: 14px;
+        border-radius: 6px;
+    }
 }

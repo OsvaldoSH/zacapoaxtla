@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { obtenerEmpleados } from "../services/empleados.api";
 import Tablagenerica from "../../../components/tabla/TablaGenerica.jsx";
-import PanelAccionesTabla from "../../../components/tabla/PanelAccionesTabla.jsx";
+import FormularioEditable from "../../../components/tabla/FormularioEditable.jsx"
+import "./ListarEmpleado.css"
 
 function ListarEmpleados() {
     const [empleados, setEmpleados] = useState([]);
     const [filaSeleccionada, setFilaSeleccionada] = useState(null);
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
     useEffect(() => {
         const cargar = async () => {
@@ -16,6 +18,11 @@ function ListarEmpleados() {
         cargar();
     }, []);
 
+    const handleSeleccionarFila = (fila) => {
+        setFilaSeleccionada(fila);
+        setMostrarFormulario(false);
+    };
+
     const columnas = [
         { titulo: "ID", campo:"id"},
         { titulo: "Nombre", campo:"nombre"},
@@ -25,39 +32,64 @@ function ListarEmpleados() {
         { titulo: "Registro", campo:"fecha_registro", tipo: "fecha"},
     ];
 
-    const acciones = [
+    const camposFormulario = [
+        {nombre: "nombre", label: "Nombre"},
+        {nombre: "usuario", label: "usuario"},
         {
-            nombre: "editar",
-            label: "Editar",
-            onClick: (empleado) => {
-                console.log("Editar", empleado);
-            },
+            nombre: "rol",
+            label: "Rol",
+            tipo: 'select',
+            opciones: [
+                {value: "Administracion", label: "Administracion"},
+                {value: "Bodega", label: "Bodega"},
+                {value: "Sistemas", label: "Sistemas"},
+            ],
         },
         {
             nombre: "estado",
-            label: "Activar / Desactivar",
-            onClick: (empleado) => {
-                console.log("Cambiar estado", empleado);
+            label: "Estado",
+            tipo: "select",
+            opciones: [
+                {value: "activo", label: "Activo"},
+                {value: "inactivo", label: "Inactivo"},
+            ],
+        },
+    ]; 
+
+    const acciones = [
+        {
+            nombre: "editar",
+            icono: "✏️",
+            onClick: (fila) => {
+                setFilaSeleccionada(fila);
+                setMostrarFormulario(true);
             },
         },
     ];
 
     return (
-        <div>
+        <div className="empleados-page">
             <h2>Lista de empleados</h2>
 
             <Tablagenerica 
                 columnas={columnas}
                 datos={empleados}
                 filaSeleccionada={filaSeleccionada}
-                onSeleccionarFila={setFilaSeleccionada}
+                onSeleccionarFila={handleSeleccionarFila}
+                acciones={acciones}
                 mensajeVacio="No hay datos"
             />
 
-            <PanelAccionesTabla
-                registroSeleccionado={filaSeleccionada}
-                acciones={acciones}
-            />
+            {mostrarFormulario && filaSeleccionada && (
+                <FormularioEditable
+                    registroSeleccionado={filaSeleccionada}
+                    campos={camposFormulario}
+                    titulo="Editar empleado"
+                    onGuardar={(data) => console.log("Guardar", data)}
+                    onEliminar={(data) => console.log("Eliminar", data)}
+                    onCancelar={() => setFilaSeleccionada(null)}
+                />
+            )}
         </div>
     );
 }

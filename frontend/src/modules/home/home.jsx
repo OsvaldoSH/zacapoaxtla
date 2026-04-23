@@ -15,7 +15,7 @@ function Inicio() {
                     Iniciar sesion
                 </button>
             </header>
-            <div className="contenido">
+            <div className="hero-contenido">
                 <img src={logo} alt="logo" className="logo-central" />
             </div>
         </div>

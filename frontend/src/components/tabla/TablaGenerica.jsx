@@ -5,6 +5,7 @@ function TablaGenerica({
     datos,
     filaSeleccionada,
     onSeleccionarFila,
+    acciones = [],
     mensajeVacio = "No hay registros",
 }) {
     const formatearValor = (columna, valor) => {
@@ -31,24 +32,50 @@ function TablaGenerica({
                         {columnas.map((columna) => (
                             <th key={columna.campo}>{columna.titulo}</th>
                         ))}
+                        {acciones.length > 0 && (
+                            <th className="columna-accion"></th>
+                        )}
                     </tr>
                 </thead>
 
                 <tbody>
                     {datos.length === 0 ? (
                         <tr>
-                            <td colSpan={columnas.length} className="mensaje-vacio">{mensajeVacio}</td>
+                            <td colSpan={columnas.length + (acciones.length > 0 ? 1 : 0)} className="mensaje-vacio">{mensajeVacio}</td>
                         </tr>
                     ) : (datos.map((fila)=> {
                         const estaSeleccionada = filaSeleccionada?.id ===fila.id;
 
                         return (
-                            <tr key={fila.id} onClick={() => onSeleccionarFila(fila)} style={{ cursor: "pointer", backgroundColor: estaSeleccionada ? "#f5e6a9" : "",}}>
+                            <tr 
+                                key={fila.id} 
+                                onClick={() => onSeleccionarFila(fila)} 
+                                className={estaSeleccionada ? "fila-seleccionada" : ""}
+                                style={{ cursor: "pointer" }}
+                            >
                                 {columnas.map((columna) => (
                                     <td key={columna.campo}>
                                         {formatearValor(columna, fila[columna.campo])}
                                     </td>
                                 ))}
+
+                                {acciones.length > 0 && (
+                                    <td className="celda-accion">
+                                        {estaSeleccionada && 
+                                            acciones.map((accion) => (
+                                                <button
+                                                    key={accion.nombre}
+                                                    type="button"
+                                                    className="btn-icono-accion"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        accion.onClick(fila);
+                                                    }}
+                                                >{accion.icono}</button>
+                                            ))
+                                        }
+                                    </td>
+                                )}
                             </tr>
                         );
                     })

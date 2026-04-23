@@ -1,0 +1,23 @@
+.empleados-page {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.empleados-page h2 {
+    margin: 0 0 16px 0;
+    font-size: 24px;
+    color: #1f2937;
+}
+
+@media (max-width: 480px) {
+    .empleados-page {
+        padding: 10px;
+    }
+
+    .empleados-page h2 {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+}
