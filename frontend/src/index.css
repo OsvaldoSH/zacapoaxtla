@@ -36,3 +36,31 @@ button {
   width: 100%;
   min-height: 100vh;
 }
+
+.boton-regresar {
+  border: none;
+  background-color: #e8cc41;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 1340px) {
+  .mobile-only {
+    display: none !important;
+  }
+
+  .desktop-only {
+    display: block !important;
+  }
+}

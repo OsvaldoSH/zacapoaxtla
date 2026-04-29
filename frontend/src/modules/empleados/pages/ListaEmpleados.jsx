@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { obtenerEmpleados } from "../services/empleados.api";
 import Tablagenerica from "../../../components/tabla/TablaGenerica.jsx";
 import FormularioEditable from "../../../components/tabla/FormularioEditable.jsx"
+import BotonRegresar from "../../../components/navigation/BotonRegresar.jsx"
 import "./ListarEmpleado.css"
 
 function ListarEmpleados() {
@@ -69,6 +70,7 @@ function ListarEmpleados() {
 
     return (
         <div className="empleados-page">
+            <BotonRegresar/>
             <h2>Lista de empleados</h2>
 
             <Tablagenerica 

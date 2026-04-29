@@ -1,4 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
+import Topbar from "../components/navigation/Topbar";
 import { eliminarToken } from "../modules/auth/utils/auth";
 import "./AdminLayout.css"
 
@@ -10,24 +11,13 @@ function AdminLayout() {
 
     return (
         <div className="admin-container">
-            
-            <header className="admin-header">
-                <div className="logo">Admin</div>
-
-                <nav className="menu">
-                    <Link to="/admin">Dashboard</Link>
-                    <Link to="/admin/empleados">Empleados</Link>
-                </nav>
-
-                <div className="user">
-                    <button onClick={cerrarSesion}>Salir</button>
-                </div>
-            </header>
+            <div className="desktop-only">
+                <Topbar cerrarSesion={cerrarSesion} />
+            </div>
 
             <main className="admin-contenido">
                 <Outlet />
             </main>
-
         </div>
     );
 }
